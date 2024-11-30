@@ -3,7 +3,6 @@ import time
 import tkinter as tk
 from tkinter import simpledialog
 from colorama import Fore, Style, init
-import matplotlib
 class WIFI_SCANNER:
     def __init__(self, windX=450, windY=400):
         self.bg = "#010417"
@@ -116,7 +115,13 @@ class WIFI_SCANNER:
         if self.iface.status() == pywifi.const.IFACE_CONNECTED:
             print(f"{Fore.GREEN}{Style.BRIGHT}Successfully connected to {net}!{Style.RESET_ALL}")
             tk.messagebox.showinfo("Connection Success", f"Connected to {net} successfully!")
+
+            # Save the password to the file
+            try:
+                with open("Saved_Passwords.txt", "a") as file:
+                    file.write(f"{net}: {password}\n")
+            except Exception as e:
+                print(f"{Fore.RED}Error saving password: {e}{Style.RESET_ALL}")
         else:
             print(f"{Fore.RED}{Style.BRIGHT}Failed to connect to {net}. Please check the password.{Style.RESET_ALL}")
             tk.messagebox.showerror("Connection Failed", f"Failed to connect to {net}.")
-
